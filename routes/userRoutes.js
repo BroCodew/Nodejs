@@ -3,6 +3,7 @@ const userController = require('./../controllers/userController');
 
 const router = express.Router();
 
+const routerName = 'users';
 router
   .route('/')
   .get(userController.getAllUsers)
@@ -14,4 +15,4 @@ router
   .patch(userController.updateUser)
   .delete(userController.deleteUser);
 
-module.exports = router;
+module.exports = { router, routerName };

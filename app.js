@@ -25,7 +25,9 @@ app.use((req, res, next) => {
 });
 
 // 3) ROUTES
-app.use('/api/v1/tours', tourRouter);
-app.use('/api/v1/users', userRouter);
+const routes = [tourRouter, userRouter];
 
+routes.forEach(({ router, routerName }) => {
+  app.use(`/api/v1/${routerName}`, router);
+});
 module.exports = app;

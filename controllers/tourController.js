@@ -1,19 +1,23 @@
+/* eslint-disable no-console */
 const Tour = require('./../models/tourModel');
 
 exports.getAllTours = async (req, res) => {
   try {
-    console.log('req.query', req.query);
     const queryObj = { ...req.query };
+    console.log('queryObj', queryObj);
     const excludeFilter = ['sort', 'limit', 'page', 'fields'];
-
     excludeFilter.forEach(el => delete queryObj[el]);
-
     let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
-    console.log('queryStr', JSON.parse(queryStr));
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, match => {
+      return `$${match}`;
+    });
+    console.log('queryStr', queryStr);
     const query = await Tour.find(JSON.parse(queryStr));
     const tours = await query;
+    console.log('query', query);
+    console.log('tours', tours);
 
+    console.log('11111111111');
     res.status(200).json({
       status: 'success',
       results: tours.length,
@@ -33,7 +37,6 @@ exports.getTour = async (req, res) => {
   try {
     const tours = await Tour.findById(req.params.id);
     //Tour.findOne({_id:req.params.id})
-
     res.status(200).json({
       status: 'success',
       results: tours.length,
